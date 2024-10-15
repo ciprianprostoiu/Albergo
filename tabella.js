@@ -1,26 +1,24 @@
-const table = document.getElementById("table");
+const tableDiv = document.getElementById("table");
 
 
 
-const createTable = (parentElement) => {
+const creaTable = (parentElement) => {
   let data;
   return {
     build: (dataInput) => {
       data = dataInput;
     },
     render: () => {
-      let htmlTable = "<table>";
-      htmlTable += data.map((row) => 
-        "<tr>" + row.map((col) => 
-          "<td>" + col + "</td>"
+      let html = `<table class="table m-3 table-bordered">`;
+      html += data.map((row) => "<tr>" + row.map((col) => "<td>" + col + "</td>"
         ).join("")
       ).join("") + "</tr>";
-      htmlTable += "</table";
-      parentElement.innerHTML = htmlTable;
+      html += "</table";
+      parentElement.innerHTML = html;
     }
   }
 }
 
-const table1 = createTable(document.querySelector("#table1"));
-table1.build([["Cognome", "Voto"], ["Pogba", "6"], ["Vlahovic", 8], ["Thuram", 6.5]]);
+const table1 = creaTable(tableDiv);
+table1.build([["Data", "Singola", "Multiple", "Suite"]]);
 table1.render();
