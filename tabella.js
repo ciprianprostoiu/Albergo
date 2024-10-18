@@ -28,7 +28,7 @@ const creaTable = (parentElement) => {
 }
 
 const table1 = creaTable(tableDiv); // i due componenti non riescono a comunicare correttamente
-table1.addData([{data: "Data", singole: "Singole", multiple: "Multiple", suite: "Suite"}]);
+table1.setData([{data: "Data", singole: "Singole", multiple: "Multiple", suite: "Suite"}]);
 //download().then((r) => r.json).then((r) => {table1.setData(r); table1.render();})
 table1.render()
 
