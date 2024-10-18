@@ -7,11 +7,11 @@ const createForm = (parentElement) => {
         onsubmit: (callbackInput) => { callback = callbackInput; },
         render: () => {
             parentElement.innerHTML = 
-                `<div>Data<br/><input id="data" type="date" /></div>` +
-                `<div>Singole<br/><input id="singole" type="number" /></div>` +
-                `<div>Multiple<br/><input id="multiple" type="number" /></div>` +
-                `<div>Suite<br/><input id="suite" type="number" /></div>` +
-                `<button type='button' id='submit'>Submit</button>`;
+                `<div>Data<br/><input id="data" type="date" class="form-label"/></div>` +
+                `<div>Singole<br/><input id="singole" type="number" class="form-label"/></div>` +
+                `<div>Multiple<br/><input id="multiple" type="number" class="form-label"/></div>` +
+                `<div>Suite<br/><input id="suite" type="number" class="form-label"/></div>` +
+                `<button type='button' id='submit' class="btn btn-primary">Conferma</button>`;
 
             document.querySelector("#submit").onclick = () => {
                 const result = {
