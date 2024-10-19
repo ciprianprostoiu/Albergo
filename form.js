@@ -7,10 +7,10 @@ const createForm = (parentElement) => {
         onsubmit: (callbackInput) => { callback = callbackInput; },
         render: () => {
             parentElement.innerHTML = 
-                `<div>Data<br/><input id="data" type="date" class="form-label"/></div>` +
-                `<div>Singole<br/><input id="singole" type="number" class="form-label"/></div>` +
-                `<div>Multiple<br/><input id="multiple" type="number" class="form-label"/></div>` +
-                `<div>Suite<br/><input id="suite" type="number" class="form-label"/></div>` +
+                `<div>Data<br/><input id="data" type="date" class="form-label form-control"/></div>` +
+                `<div>Singole<br/><input id="singole" type="number" class="form-label form-control"/></div>` +
+                `<div>Multiple<br/><input id="multiple" type="number" class="form-label form-control"/></div>` +
+                `<div>Suite<br/><input id="suite" type="number" class="form-label form-control"/></div>` +
                 `<button type='button' id='submit' class="btn btn-primary">Conferma</button>`;
 
             document.querySelector("#submit").onclick = () => {
@@ -29,8 +29,11 @@ const createForm = (parentElement) => {
 const formElement = document.getElementById("form");
 const form = createForm(formElement);
 
-form.onsubmit((result) => {
-    console.log(result); 
+form.onsubmit((result) => { // 
+    console.log(result, table1.data);
+    table1.addData(result);
+    //table1.data += result;
+    table1.render();
 });
 
 form.render();
