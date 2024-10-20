@@ -25,13 +25,15 @@ const creaTable = (parentElement) => {
       if (data.length === 0) {
         data=[{giorno: "Data", singola: "Singole", doppia: "Multiple", suite: "Suite"}]
         let oggi = new Date(); 
+
         const giorno = oggi.getDate();
         const mese = oggi.getMonth() + 1;
         const anno = oggi.getFullYear();
-        const dataIniziale = giorno + "/" + mese + "/" + anno;
+
+        const data1 = giorno + "/" + mese + "/" + anno;
 
         const conf = {
-          giorno: dataIniziale,
+          giorno: data1,
           singola: 10,
           doppia: 5,
           suite: 3
@@ -43,12 +45,12 @@ const creaTable = (parentElement) => {
 
           const giorno1 = oggi.getDate();
           const mese1 = oggi.getMonth();
-          const annoCorrente = oggi.getFullYear();
+          const anno1 = oggi.getFullYear();
 
-          const nuovaData = giorno1 + "/" + (mese1 + 1) + "/" + annoCorrente;
+          const Data2 = giorno1 + "/" + (mese1 + 1) + "/" + anno1;
 
           const newconf = {
-            giorno: nuovaData,
+            giorno: Data2,
             singola: 10,
             doppia: 5,
             suite: 3
@@ -56,7 +58,7 @@ const creaTable = (parentElement) => {
 
           data.push(newconf);
 
-          if (giorno1 === giorno && (mese1=== mese)) {
+          if (giorno1 === giorno && mese1=== mese) {
             break;
           }
         }
