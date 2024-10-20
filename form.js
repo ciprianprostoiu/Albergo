@@ -34,6 +34,9 @@ form.onsubmit((result) => { //
     table1.addData(result);
     //table1.data += result;
     table1.render();
+    dataProva = new Date();
+    dataProvaStr = dataProva.getFullYear() + "-" + (dataProva.getMonth() + 1) + "-" + dataProva.getDate()  
+    console.log(dataProvaStr);
 });
 
 form.render();
