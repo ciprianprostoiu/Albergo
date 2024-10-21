@@ -1,5 +1,5 @@
 const tableDiv = document.getElementById("table");
-
+const outputform=document.getElementById("outputform");
 
 
 const creaTable = (parentElement) => {
@@ -23,14 +23,19 @@ const creaTable = (parentElement) => {
     },
     addData: () => {
       if (data.length === 0) {
-        data=[{giorno: "Data", singola: "Singole", doppia: "Multiple", suite: "Suite"}]
+        data=[{giorno: "Data", singola: "Singole", doppia: "Doppie", suite: "Suite"}]
         let oggi = new Date(); 
 
-        const giorno = oggi.getDate();
-        const mese = oggi.getMonth() + 1;
+        let giorno = oggi.getDate();
+        let mese = oggi.getMonth() + 1;
         const anno = oggi.getFullYear();
-
-        const data1 = giorno + "/" + mese + "/" + anno;
+        if (giorno<10){
+          giorno="0"+giorno;
+        }
+        if(mese<10){
+          mese="0"+mese;
+        }
+        const data1 = anno + "-" + mese + "-" + giorno;
 
         const conf = {
           giorno: data1,
@@ -43,11 +48,11 @@ const creaTable = (parentElement) => {
         while (true) {
           oggi.setDate(oggi.getDate() + 1);    
 
-          const giorno1 = oggi.getDate();
-          const mese1 = oggi.getMonth();
+          let giorno1 = oggi.getDate();
+          let mese1 = oggi.getMonth();
           const anno1 = oggi.getFullYear();
-
-          const Data2 = giorno1 + "/" + (mese1 + 1) + "/" + anno1;
+          
+          const Data2 = anno1 + "-" + (mese1 + 1) + "-" + giorno1;
 
           const newconf = {
             giorno: Data2,
@@ -58,17 +63,71 @@ const creaTable = (parentElement) => {
 
           data.push(newconf);
 
-          if (giorno1 === giorno && mese1=== mese) {
+          if (giorno1 === giorno && mese1 === mese) {
             break;
+        }
+        }
+      }
+    },
+    remove:(resultform)=>{
+      const formdata=resultform.data;
+      const formsingole=resultform.singole;
+      const formdoppia=resultform.doppia;
+      const formsuite=resultform.suite;
+      let controllogiorno=false;
+      let controllosingola=false;
+      let controllodoppia=false;
+      let controllosuite=false;
+      let indice=-1;
+      for (let i =0; i<data.length;i++){
+        if (data[i].giorno==formdata){
+          indice=i;
+          controllogiorno=true;
+          break;
+        }
+      }
+      if (controllogiorno==true){
+        if (formsingole>0){
+          if((data[indice].singola>0)&&(data[indice].singola>=formsingole)){
+            data[indice].singola-=formsingole;
+            controllosingola=true;
+          }
+          else{
+            controllosingola=false;
           }
         }
+        if (formdoppia>0){
+          if((data[indice].doppia>0)&&(data[indice].doppia>=formdoppia)){
+            data[indice].doppia-=formdoppia;
+            controllodoppia=true;
+          }
+          else{
+            controllodoppia=false;
+          }
+        }
+        if (formsuite>0){
+          if((data[indice].suite>0)&&(data[indice].suite>=formsuite)){
+            data[indice].suite-=formsuite;
+            controllosuite=true;
+          }
+          else{
+            controllosuite=false;
+          }
+        }
+      }
+      if((controllogiorno==true)&&((controllosingola==true)||(controllodoppia==true)||(controllosuite==true))){
+        outputform.innerHTML="OK";
+        table1.render();
+      }
+      else{
+        outputform.innerHTML="KO";
       }
     }
   }
 }
 
-const table1 = creaTable(tableDiv); // i due componenti non riescono a comunicare correttamente
-table1.setData([{data: "Data", singole: "Singole", multiple: "Multiple", suite: "Suite"}]);
+const table1 = creaTable(tableDiv); 
+// table1.setData([{data: "Data", singole: "Singole", doppie: "Doppie", suite: "Suite"}]);
 table1.addData()
 //download().then((r) => r.json).then((r) => {table1.setData(r); table1.render();})
 table1.render()
