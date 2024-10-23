@@ -1,10 +1,14 @@
 const tableDiv = document.getElementById("table");
 const outputform=document.getElementById("outputform");
 
-
+download().then((r2) => {table1.setData(r2); table1.render()});
 const creaTable = (parentElement) => {
   let data = [];
   return {
+    returnData: () => {
+      //FUNZIONE CHE RESTITUISCE LA LISTA DEI DATI (30G)
+      return(data);
+    },
     setData: (dataInput) => {
       data = dataInput;
     },
@@ -30,10 +34,11 @@ const creaTable = (parentElement) => {
         let mese = oggi.getMonth() + 1;
         const anno = oggi.getFullYear();
         if (giorno<10){
-          giorno="0"+giorno;
+          giorno="0"+ toString(giorno);
+
         }
         if(mese<10){
-          mese="0"+mese;
+          mese="0"+ toString(mese);
         }
         const data1 = anno + "-" + mese + "-" + giorno;
 
@@ -49,10 +54,16 @@ const creaTable = (parentElement) => {
           oggi.setDate(oggi.getDate() + 1);    
 
           let giorno1 = oggi.getDate();
-          let mese1 = oggi.getMonth();
+          let mese1 = oggi.getMonth()+1;
           const anno1 = oggi.getFullYear();
-          
-          const Data2 = anno1 + "-" + (mese1 + 1) + "-" + giorno1;
+          if (giorno1<10){
+          giorno1="0"+ toString(giorno1);
+
+        }
+        if(mese1<110){
+          mese1="0"+ toString(mese1);
+        }
+          const Data2 = anno1 + "-" + (mese1) + "-" + giorno1;
 
           const newconf = {
             giorno: Data2,
@@ -62,6 +73,7 @@ const creaTable = (parentElement) => {
           };
 
           data.push(newconf);
+          console.log(data);
 
           if (giorno1 === giorno && mese1 === mese) {
             break;
@@ -116,18 +128,20 @@ const creaTable = (parentElement) => {
         }
       }
       if((controllogiorno==true)&&((controllosingola==true)||(controllodoppia==true)||(controllosuite==true))){
-        outputform.innerHTML="OK";
-        table1.render();
+        
+        upload(table1.returnData()).then(() => {outputform.innerHTML="OK"; table1.render();})
       }
       else{
         outputform.innerHTML="KO";
       }
+      
     }
   }
 }
 
 const table1 = creaTable(tableDiv); 
+
 // table1.setData([{data: "Data", singole: "Singole", doppie: "Doppie", suite: "Suite"}]);
-table1.addData()
+//DONLOAD
+//table1.addData()
 //download().then((r) => r.json).then((r) => {table1.setData(r); table1.render();})
-table1.render()

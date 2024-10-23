@@ -43,6 +43,7 @@ form.onsubmit((resultform) => { //
     dataProvaStr = dataProva.getFullYear() + "-" + (dataProva.getMonth() + 1) + "-" + dataProva.getDate()  
     console.log(dataProvaStr);
     
+    
 });
 
 form.render();
