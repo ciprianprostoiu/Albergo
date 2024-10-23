@@ -1,54 +1,121 @@
 const tableDiv = document.getElementById("table");
 const outputform=document.getElementById("outputform");
+const base = {
+  singola: 10,
+  doppia: 5,
+  suite: 3
+};
 
-download().then((r2) => {table1.setData(r2); table1.render()});
+download().then((r2) => {table1.addData(r2); table1.render()});
 const creaTable = (parentElement) => {
-  let data = [];
+  let data = {};
+  data_mostra={};
   return {
     returnData: () => {
       //FUNZIONE CHE RESTITUISCE LA LISTA DEI DATI (30G)
       return(data);
     },
-    setData: (dataInput) => {
-      data = dataInput;
-    },
     render: () => { // problema nella generazione della tabella
-      let html = `<table class="table m-3 table-bordered">`;
-      data.forEach((row) => {
+      let html = `<table class="table m-3 table-bordered"><tr><th>Data</th><th>Singole</th><th>Doppie</th><th>Suite</th></tr>`;
+      for (const giorno in data_mostra) {
+        const row = data[giorno];
         html += "<tr>" + 
-        "<td>" + row.giorno + "</td>" + 
+        "<td>" + giorno + "</td>" + 
         "<td>" + row.singola + "</td>" + 
         "<td>" + row.doppia + "</td>" + 
         "<td>" + row.suite + "</td>" + 
         "</tr>";
-      })
+      }
       html += "</table>";
       parentElement.innerHTML = html;
     },
-    addData: () => {
-      if (data.length === 0) {
-        data=[{giorno: "Data", singola: "Singole", doppia: "Doppie", suite: "Suite"}]
-        let oggi = new Date(); 
-
+    addData: (dataInput) => {
+      data = dataInput;
+      data_mostra={};
+      if (Object.keys(data).length === 0){
+        let oggi = new Date();
         let giorno = oggi.getDate();
-        let mese = oggi.getMonth() + 1;
+        let mese = oggi.getMonth()+1;
         const anno = oggi.getFullYear();
+
+        let gio=0
         if (giorno<10){
-          giorno="0"+ toString(giorno);
-
+          gio="0"+ giorno;
+        }else{
+          gio=giorno
         }
+        let mes=0
         if(mese<10){
-          mese="0"+ toString(mese);
+          mes="0"+ mese;
         }
-        const data1 = anno + "-" + mese + "-" + giorno;
+        else{
+          mes=mese;
+        }
 
-        const conf = {
-          giorno: data1,
-          singola: 10,
-          doppia: 5,
-          suite: 3
-        };
-        data.push(conf);
+        const data1 = anno + "-" + mes + "-" + gio;
+        data[data1]= base;
+        data_mostra[data1] = base;
+        while (true) {
+          oggi.setDate(oggi.getDate() + 1);    
+
+          let giorno1 = oggi.getDate();
+          let mese1 = oggi.getMonth()+1;
+          const anno1 = oggi.getFullYear();
+          if (giorno1<10){
+            gio="0"+ giorno1;
+          }else{
+            gio=giorno1
+          }
+          if(mese1<10){
+            mes="0"+ mese1;
+          }
+          else{
+            mes=mese1
+          }
+          const Data2 = anno1 + "-" + mes + "-" + gio;
+
+          data[Data2]= base
+          data_mostra[Data2] = base;
+
+
+
+          if (giorno1 === giorno && mese1-1 === mese) {
+            break;
+        }
+        }
+      }else{
+        let oggi = new Date();
+        let giorno = oggi.getDate();
+        let mese = oggi.getMonth()+1;
+        const anno = oggi.getFullYear();
+
+        let gio=0
+        if (giorno<10){
+          gio="0"+ giorno;
+        }else{
+          gio=giorno
+        }
+        let mes=0
+        if(mese<10){
+          mes="0"+ mese;
+        }
+        else{
+          mes=mese
+        }
+
+        const data1 = anno + "-" + mes + "-" + gio;
+        if(data1 in data){
+          data_mostra[data1] = data.data1;
+          console.log(data1)
+          for (const giorno in data){
+            if (giorno < data1){
+              delete data[giorno];
+            }
+          }
+        }else{
+          data[data1]= base
+          data_mostra[data1] = base;
+        }
 
         while (true) {
           oggi.setDate(oggi.getDate() + 1);    
@@ -57,30 +124,32 @@ const creaTable = (parentElement) => {
           let mese1 = oggi.getMonth()+1;
           const anno1 = oggi.getFullYear();
           if (giorno1<10){
-          giorno1="0"+ toString(giorno1);
+            gio="0"+ giorno1;
+          }else{
+            gio=giorno1
+          }
+          if(mese1<10){
+            mes="0"+ mese1;
+          }
+          else{
+            mes=mese1
+          }
+          const Data2 = anno1 + "-" + mes + "-" + gio;
+          if(Data2 in data){
+            data_mostra[Data2] = data.Data2;
+          }else{
+            data[Data2]= base
+            data_mostra[Data2] = base;
+          }
 
-        }
-        if(mese1<110){
-          mese1="0"+ toString(mese1);
-        }
-          const Data2 = anno1 + "-" + (mese1) + "-" + giorno1;
 
-          const newconf = {
-            giorno: Data2,
-            singola: 10,
-            doppia: 5,
-            suite: 3
-          };
-
-          data.push(newconf);
-          console.log(data);
-
-          if (giorno1 === giorno && mese1 === mese) {
+          if (giorno1 === giorno && mese1-1 === mese) {
             break;
         }
-        }
       }
-    },
+      }
+      upload(data)
+      },
     remove:(resultform)=>{
       const formdata=resultform.data;
       const formsingole=resultform.singole;
