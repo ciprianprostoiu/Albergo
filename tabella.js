@@ -53,8 +53,8 @@ const creaTable = (parentElement) => {
         }
 
         const data1 = anno + "-" + mes + "-" + gio;
-        data[data1]= base;
-        data_mostra[data1] = base;
+        data[data1]= {...base};
+        data_mostra[data1] = {...base};
         while (true) {
           oggi.setDate(oggi.getDate() + 1);    
 
@@ -74,8 +74,8 @@ const creaTable = (parentElement) => {
           }
           const Data2 = anno1 + "-" + mes + "-" + gio;
 
-          data[Data2]= base
-          data_mostra[Data2] = base;
+          data[Data2]= {...base}
+          data_mostra[Data2] = {...base};
 
 
 
@@ -113,8 +113,8 @@ const creaTable = (parentElement) => {
             }
           }
         }else{
-          data[data1]= base
-          data_mostra[data1] = base;
+          data[data1]= {...base}
+          data_mostra[data1] = {...base};
         }
 
         while (true) {
@@ -138,8 +138,8 @@ const creaTable = (parentElement) => {
           if(Data2 in data){
             data_mostra[Data2] = data.Data2;
           }else{
-            data[Data2]= base
-            data_mostra[Data2] = base;
+            data[Data2]= {...base}
+            data_mostra[Data2] = {...base};
           }
 
 
@@ -159,46 +159,42 @@ const creaTable = (parentElement) => {
       let controllosingola=false;
       let controllodoppia=false;
       let controllosuite=false;
-      let indice=-1;
-      for (let i =0; i<data.length;i++){
-        if (data[i].giorno==formdata){
-          indice=i;
-          controllogiorno=true;
-          break;
+      if (formdata in data){
+        controllogiorno=true;
+        if(formsingole > 0 && data[formdata].singola >= formsingole){
+          data[formdata].singola-=formsingole;
+          controllosingola=true;
+        }
+        if(formdoppia > 0 && data[formdata].doppia >= formdoppia){
+          data[formdata].doppia-=formdoppia;
+          controllodoppia=true;
+        }
+        if(formsuite > 0 && data[formdata].suite >= formsuite){
+          data[formdata].suite-=formsuite;
+          controllosuite=true;
         }
       }
-      if (controllogiorno==true){
-        if (formsingole>0){
-          if((data[indice].singola>0)&&(data[indice].singola>=formsingole)){
-            data[indice].singola-=formsingole;
-            controllosingola=true;
-          }
-          else{
-            controllosingola=false;
-          }
+      else{
+        controllogiorno=true;
+        data[formdata]={...base};
+        console.log(data)
+        console.log(formdata)
+        if(formsingole > 0 && data[formdata].singola >= formsingole){
+          data[formdata].singola-=formsingole;
+          controllosingola=true;
         }
-        if (formdoppia>0){
-          if((data[indice].doppia>0)&&(data[indice].doppia>=formdoppia)){
-            data[indice].doppia-=formdoppia;
-            controllodoppia=true;
-          }
-          else{
-            controllodoppia=false;
-          }
+        if(formdoppia > 0 && data[formdata].doppia >= formdoppia){
+          data[formdata].doppia-=formdoppia;
+          controllodoppia=true;
         }
-        if (formsuite>0){
-          if((data[indice].suite>0)&&(data[indice].suite>=formsuite)){
-            data[indice].suite-=formsuite;
-            controllosuite=true;
-          }
-          else{
-            controllosuite=false;
-          }
+        if(formsuite > 0 && data[formdata].suite >= formsuite){
+          data[formdata].suite-=formsuite;
+          controllosuite=true;
         }
       }
       if((controllogiorno==true)&&((controllosingola==true)||(controllodoppia==true)||(controllosuite==true))){
-        
         upload(table1.returnData()).then(() => {outputform.innerHTML="OK"; table1.render();})
+        console.log(data);
       }
       else{
         outputform.innerHTML="KO";

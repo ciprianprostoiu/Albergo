@@ -31,9 +31,6 @@ const form = createForm(formElement);
 
 form.onsubmit((resultform) => { // 
     console.log(resultform, table1.data);
-    table1.addData(resultform);
-    //table1.data += result;
-    table1.render();
     table1.remove(resultform);
     document.querySelector("#data").value = "";
     document.querySelector("#singole").value = "";
